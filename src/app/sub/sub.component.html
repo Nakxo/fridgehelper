@@ -1,0 +1,89 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-4 col-md-6 col-sm-8">
+      <h1 class="text-center my-4">Inscription</h1>
+      <div class="text-center mb-4">
+        <div style="background-color: #E0E0E0; width: 100px; height: 100px; border-radius: 50%; margin: 0 auto; position: relative;">
+          <img src="https://i.imgur.com/VHjetDE.png" alt="Profile Image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+        </div>
+      </div>
+      <form (ngSubmit)="onSubmit()" #userForm="ngForm" class="user-form needs-validation" novalidate>
+        <!-- Prénom -->
+        <div class="form-group">
+          <input type="text" id="firstName" name="prenom" [(ngModel)]="user.prenom" class="form-control" placeholder="Prénom" required>
+          <div class="invalid-feedback">
+            Prénom est requis.
+          </div>
+        </div>
+
+        <!-- Nom -->
+        <div class="form-group">
+          <input type="text" id="lastName" name="nom" [(ngModel)]="user.nom" class="form-control" placeholder="Nom" required>
+          <div class="invalid-feedback">
+            Nom est requis.
+          </div>
+        </div>
+
+        <!-- Numéro de téléphone -->
+        <div class="form-group">
+          <input type="tel" id="phoneNumber" name="telephone" [(ngModel)]="user.tel" class="form-control" placeholder="Numéro de téléphone" required pattern="^[0-9]+$">
+          <div *ngIf="userForm.controls['telephone']?.errors?.['pattern']" class="text-danger">
+            Veuillez entrer un numéro de téléphone valide.
+          </div>
+        </div>
+        <!-- Email -->
+        <div class="form-group">
+          <input type="email" id="email" name="email" [(ngModel)]="user.email" class="form-control" placeholder="E-mail" required pattern="^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\..*$">
+          <div *ngIf="userForm.controls['email'].invalid && (userForm.controls['email'].dirty || userForm.controls['email'].touched)" class="text-danger">
+            L'email est obligatoire et doit être une adresse email valide.
+          </div>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+          <input type="password" id="password" name="mot de passe" [(ngModel)]="user.mdp" class="form-control" placeholder="Mot de passe" minlength="6" required>
+          <div *ngIf="userForm.controls['mot de passe']?.errors?.['minlength']" class="text-danger">
+            Le mot de passe doit contenir au moins 6 caractères.
+          </div>
+        </div>
+
+        <!-- Confirmez le mot de passe -->
+        <div class="form-group">
+          <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" class="form-control" placeholder="Confirmez le mot de passe" minlength="6" required>
+          <p *ngIf="confirmPassword && !passwordsMatch()" class="text-danger">
+            Les mots de passe ne correspondent pas.
+          </p>
+        </div>
+
+        <!-- Bouton de soumission -->
+        <div class="form-group">
+          <button type="submit" [disabled]="userForm.invalid" class="btn btn-primary btn-block">S'inscrire</button>
+        </div>
+
+        <div class="mt-4 text-center">
+          <a href="#" class="text-muted">Déjà un compte? Connectez-vous!</a>
+        </div>
+      </form>
+
+      <!-- Modal -->
+      <div class="modal fade" data-backdrop="static" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="successModalLabel">Succès de la création</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Félicitations ! Votre compte a bien été créé.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="redirectToLogin()">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

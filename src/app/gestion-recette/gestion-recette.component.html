@@ -1,0 +1,43 @@
+<p>gestion-recette works!</p>
+
+<button [routerLink]="['/creation-recette']" >Creation recette</button>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let recette of recettes">
+      <td>{{ recette.nom }}</td>
+      <td>{{ recette.description }}</td>
+      <td>
+        <button class="btn btn-warning" [routerLink]="['/recette-details', recette.idRecette]">Modifier</button>
+        <button *ngIf="recette.idRecette" class="btn btn-danger" (click)="onDelete(recette.idRecette)">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="currentRecette">
+  <h2>{{ currentRecette.idRecette ? 'Modifier' : 'Ajouter' }} une recette</h2>
+
+  <label>Nom:</label>
+  <input [(ngModel)]="currentRecette.nom" />
+
+  <label>Description:</label>
+  <textarea [(ngModel)]="currentRecette.description"></textarea>
+
+
+  <button (click)="onAddOrUpdateRecette()">
+      {{ currentRecette.idRecette ? 'Mettre à jour' : 'Créer' }}
+  </button>
+  <button (click)="currentRecette = null">Annuler</button>
+</div>
+
+
+
+
+

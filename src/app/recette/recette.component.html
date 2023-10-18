@@ -1,0 +1,48 @@
+<div class="recette-detail container">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>{{ recette.nom }}</h1>
+
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="d-flex align-items-center">
+          <span class="mr-2">⏲️</span> <!-- Emoji horloge -->
+          <span>{{ recette.duree }} minutes</span>
+        </div>
+        <div>
+          <span class="font-weight-bold">{{ recette.difficulte | difficulte  }}</span>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center align-items-center mt-3">
+        <span class="mr-2">🍽️</span> <!-- Emoji couvert -->
+        <span>{{ recette.cmbPersonne }} personnes</span>
+      </div>
+
+      <div class="text-center mt-4">
+        <img class="recette-detail-image img-fluid" [src]="recette.image" alt="Image de la recette">
+      </div>
+
+      <p class="recette-description mt-3">{{ recette.description }}</p>
+    </div>
+  </div>
+
+  <div class="ingredients-section mt-5">
+    <h2>Ingrédients:</h2>
+    <ul>
+      <li *ngFor="let produit of recette.produitRecette">
+        <!-- Affichage conditionnel de la quantité -->
+        <ng-container *ngIf="produit.quantite">{{ produit.quantite }} x </ng-container>
+        {{ produit.produit.nom }}
+        <!-- Affichage conditionnel du poids et de l'unité de mesure -->
+        <ng-container *ngIf="produit.poids">{{ produit.poids }} {{ produit.produit.typeProduit.uniteDeMesure }}</ng-container>
+      </li>
+    </ul>
+  </div>
+
+  <div class="etapes-section mt-4">
+    <h2>Étapes:</h2>
+    <ol>
+      <li *ngFor="let etape of recette.etapes | orderBy: 'numeroEtape'">{{etape.numeroEtape}} - {{ etape.etape }}</li>
+    </ol>
+  </div>
+</div>

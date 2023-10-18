@@ -1,0 +1,122 @@
+<div *ngIf="recette" class="container my-4">
+  <h2 class="text-center mb-5">Détails de la Recette</h2>
+
+  <!-- Affichage de l'image -->
+  <div class="text-center mb-4">
+      <img [src]="recette.image" class="img-fluid rounded" style="max-width: 300px;" alt="Image de la recette">
+  </div>
+
+  <!-- Formulaire de mise à jour -->
+  <form (submit)="updateRecetteDetails()">
+      <div class="mb-3">
+          <label for="recette-name" class="form-label">Nom de la recette:</label>
+          <input id="recette-name" type="text" class="form-control" [placeholder]="recette.nom" [(ngModel)]="recette.nom" name="recetteName" maxlength="255">
+      </div>
+
+      <div class="mb-3">
+          <label for="recette-description" class="form-label">Description:</label>
+          <input id="recette-description" type="text" class="form-control" [placeholder]="recette.description" [(ngModel)]="recette.description" name="recetteDescription" maxlength="255">
+      </div>
+
+      <div class="mb-3">
+          <label for="recette-image-url" class="form-label">URL de l'image :</label>
+          <input id="recette-image-url" type="text" class="form-control" [placeholder]="recette.image" [(ngModel)]="recette.image" name="recetteImageUrl" maxlength="255">
+      </div>
+
+      <div class="mb-3">
+        <label for="recette-cmbPersonne" class="form-label">Nombre de personnes :</label>
+        <input id="recette-cmbPersonne" type="number" class="form-control" [placeholder]="recette.cmbPersonne" [(ngModel)]="recette.cmbPersonne" name="recetteCmbPersonne" min="1">
+    </div>
+
+      <!-- Durée de la recette -->
+    <div class="mb-3">
+      <label for="recette-duree" class="form-label">Durée (en minutes) :</label>
+      <input id="recette-duree" type="number" class="form-control" [placeholder]="recette.duree" [(ngModel)]="recette.duree" name="recetteDuree">
+    </div>
+
+    <!-- Difficulté de la recette -->
+    <div class="mb-3">
+      <label for="recette-difficulte" class="form-label">Difficulté :</label>
+      <select id="recette-difficulte" class="form-select" [(ngModel)]="recette.difficulte" name="recetteDifficulte">
+          <option value="TRES_FACILE">Très facile</option>
+          <option value="FACILE">Facile</option>
+          <option value="NORMAL">Normal</option>
+          <option value="DIFFICILE">Difficile</option>
+          <option value="TRES_DIFFICILE">Très difficile</option>
+      </select>
+    </div>
+
+      <div class="text-center mb-5">
+          <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+      </div>
+  </form>
+
+  <!-- Section des étapes -->
+  <h3 class="my-4">Étapes:</h3>
+  <div *ngFor="let etape of recette.etapes; let i = index" class="form-group row">
+      <div class="col-md-2">
+          <label for="numeroEtape-{{i}}" class="form-label">Numéro:</label>
+          <input id="numeroEtape-{{i}}" type="number" class="form-control" [placeholder]="etape.numeroEtape" [(ngModel)]="etape.numeroEtape" name="numeroEtape{{i}}" readonly>
+      </div>
+      <div class="col-md-8">
+          <label for="etape-{{i}}" class="form-label">Description de l'étape:</label>
+          <input id="etape-{{i}}" type="text" class="form-control" [placeholder]="etape.etape" [(ngModel)]="etape.etape" name="etapeDescription{{i}}">
+      </div>
+      <div class="col-md-2 d-flex align-items-center justify-content-end">
+          <button class="btn btn-danger" (click)="deleteEtape(i)">Supprimer</button>
+      </div>
+  </div>
+
+  <div class="text-center mb-3">
+      <button class="btn btn-primary" (click)="addEtape()">Ajouter une nouvelle étape</button>
+      <button class="btn btn-success mt-3" (click)="onSubmitEtapes()">Soumettre étapes</button>
+  </div>
+
+  <!-- Section des ingrédients -->
+<h3 class="my-4">Ingrédients:</h3>
+<div *ngFor="let produit of recette.produitRecette; let i = index" class="form-group row">
+    <label class="col-md-4 col-form-label" for="produit-{{produit.idProduitRecette}}">{{ produit.produit.nom }}</label>
+    <div class="col-md-3">
+        <input id="produit-{{produit.idProduitRecette}}" type="number" class="form-control" [placeholder]="produit.quantite" [(ngModel)]="produit.quantite" name="quantite-{{i}}" disabled> unité
+    </div>
+    <div class="col-md-3">
+        <input id="poids-{{produit.idProduitRecette}}" type="number" class="form-control" [placeholder]="produit.poids" [(ngModel)]="produit.poids" name="poids-{{i}}" disabled>{{ produit.produit.typeProduit.uniteDeMesure }}
+    </div>
+    <div class="col-md-2 d-flex align-items-center justify-content-end">
+        <button class="btn btn-danger" (click)="deleteProduit(i)">Supprimer</button>
+    </div>
+</div>
+
+  <!-- Ajout d'un ingrédient -->
+<div class="form-group row">
+  <div class="col-md-2">
+      <label for="typeProduit" class="form-label">Type d'Ingrédients:</label>
+      <select id="typeProduit" (change)="onTypeProduitSelected($event)" class="form-select" [(ngModel)]="selectedTypeProduit" name="typeProduit">
+          <option value="">Sélectionnez un type</option>
+          <option *ngFor="let type of typesProduits" [value]="type.idTypeProduit">{{ type.nom }}</option>
+      </select>
+  </div>
+
+  <div *ngIf="produits" class="col-md-2">
+      <label for="produit" class="form-label">Ingrédients:</label>
+      <select id="produit" (change)="onProduitSelected($event)" [(ngModel)]="produitId" name="produit" class="form-select">
+          <option value="">Sélectionnez un produit</option>
+          <option *ngFor="let produit of produits" [value]="produit.id">{{ produit.nom }}</option>
+      </select>
+  </div>
+
+  <div class="col-md-2">
+      <label for="quantite" class="form-label">Unité (Quantité):</label>
+      <input id="quantite" type="number" class="form-control" [(ngModel)]="quantite" name="quantite">
+  </div>
+
+  <div class="col-md-2">
+      <label for="poids" class="form-label">Poids:</label>
+      <input id="poids" type="number" class="form-control" [(ngModel)]="poids" name="poids">
+  </div>
+
+  <div class="col-md-2 d-flex align-items-center">
+      <button class="btn btn-primary" (click)="addProduitRecette()">Ajouter le produit</button>
+  </div>
+</div>
+</div>

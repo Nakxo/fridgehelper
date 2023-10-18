@@ -1,0 +1,18 @@
+<h2 class="recette-title">Vos recettes avec les produits du frigo</h2>
+
+<div class="row">
+
+<div class="row">
+  <div class="col-md-3 col-sm-6 mb-4" *ngFor="let recette of recettesAvecProduitsFrigo">
+    <a [routerLink]="['/recette', recette.idRecette]">
+      <div class="card">
+        <h3 class="card-header">{{ recette.nom }}</h3>
+        <img class="card-img-top" [src]="recette.image ? recette.image : 'path/to/default/image.jpg'" alt="Image de la recette" style="height: 200px; object-fit: cover;">
+        <div class="card-body">
+          <p class="card-text">{{ recette.description }}</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+</div>

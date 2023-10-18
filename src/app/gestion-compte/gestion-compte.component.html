@@ -1,0 +1,53 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="mb-4">Gestion du Compte</h2>
+
+      <form (ngSubmit)="onSubmitInfo()" #infoForm="ngForm">
+        <div class="mb-3">
+          <label for="nom" class="form-label">Nom</label>
+          <input type="text" class="form-control" id="nom" [(ngModel)]="user.nom" name="nom">
+        </div>
+
+        <div class="mb-3">
+          <label for="prenom" class="form-label">Prénom</label>
+          <input type="text" class="form-control" id="prenom" [(ngModel)]="user.prenom" name="prenom">
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email">
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="!infoForm.valid">Mettre à jour les infos</button>
+      </form>
+
+      <form (ngSubmit)="onSubmitPassword()" #passwordForm="ngForm" class="mt-4">
+        <div class="mb-3">
+          <label for="ancienMdp" class="form-label">Ancien mot de passe</label>
+          <input type="password" class="form-control" id="ancienMdp" [(ngModel)]="oldPassword" name="ancienMdp" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="nouveauMdp" class="form-label">Nouveau mot de passe</label>
+          <input type="password" class="form-control" id="nouveauMdp" [(ngModel)]="newPassword" name="nouveauMdp" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirmez le nouveau mot de passe</label>
+          <input type="password" class="form-control" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="!passwordForm.valid || !passwordsValid()">Changer le mot de passe</button>
+      </form>
+
+      <div *ngIf="successMessage" class="alert alert-success mt-3">
+        {{ successMessage }}
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+  .recette-detail {
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .recette-detail-image {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .recette-description {
+    font-style: italic;
+  }
+
+  .ingredients-section, .etapes-section {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .ingredients-section ul, .etapes-section ol {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .ingredients-section li, .etapes-section li {
+    margin-bottom: 8px;
+  }

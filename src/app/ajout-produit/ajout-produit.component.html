@@ -1,0 +1,35 @@
+<div class="custom-container">
+  <form [formGroup]="produitForm" (ngSubmit)="onSubmit()">
+
+      <!-- Titre du formulaire -->
+      <h2 class="mb-4">Ajout de produit</h2>
+
+      <!-- Menu déroulant pour le type de produit -->
+      <div class="form-group">
+          <label class="custom-label" for="typeProduit">Type de produit</label>
+          <select formControlName="typeProduit" class="form-control" id="typeProduit">
+              <option *ngFor="let type of typesProduit" [value]="type.idTypeProduit">{{type.nom}}</option>
+          </select>
+      </div>
+
+      <!-- Champ pour le nom du produit -->
+      <div class="form-group">
+          <label class="custom-label" for="nom">Nom du produit</label>
+          <input type="text" formControlName="nom" placeholder="Nom du produit" class="form-control" id="nom">
+      </div>
+
+      <!-- Checkbox pour indiquer si l'utilisateur a un poids estimé -->
+      <div class="form-group form-check">
+          <input type="checkbox" formControlName="possedePoidsEstime" class="form-check-input" id="checkPoidsEstime">
+          <label class="form-check-label" for="checkPoidsEstime">J'ai un poids estimé</label>
+      </div>
+
+      <!-- Champ pour le poids estimé (affiché seulement si possedePoidsEstime est coché) -->
+      <div *ngIf="produitForm.get('possedePoidsEstime').value" class="form-group">
+          <label class="custom-label" for="poidsEstime">Poids estimé</label>
+          <input type="number" formControlName="poidsEstime" placeholder="Poids estimé" class="form-control" id="poidsEstime">
+      </div>
+
+      <button type="submit" class="custom-submit-btn">Ajouter</button>
+  </form>
+</div>

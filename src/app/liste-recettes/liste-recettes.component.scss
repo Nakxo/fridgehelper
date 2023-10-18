@@ -1,0 +1,21 @@
+.recette-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+}
+.recette-card {
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 15px;
+  flex-basis: calc(33.33% - 30px);
+  box-sizing: border-box;
+}
+
+
+/* Pour la mise en page en grille */
+body, html, app-root, [liste-recette] {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

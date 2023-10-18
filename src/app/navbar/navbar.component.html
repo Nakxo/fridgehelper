@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">
+    <span>🧊</span> FridgeHelper
+  </a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/liste-recettes">Recettes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/gestion-compte', utilisateurId]">Gestion du compte</a>
+      </li>
+      <li *ngIf="utilisateurRole == 'Administrateur'" class="nav-item">
+        <a class="nav-link" routerLink="/gestion-produit">Gestion Produits</a>
+      </li>
+      <li *ngIf="utilisateurRole == 'Administrateur'" class="nav-item">
+        <a class="nav-link" routerLink="/gestion-recette">Gestion Recettes</a>
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="navbar-text ml-auto">
+    <span class="text-light">Bonjour : {{nomUtilisateur}} {{prenomUtilisateur}}</span>
+    <button class="btn btn-danger ml-3" (click)="onLogoutClick()">Log out</button>
+  </div>
+</nav>

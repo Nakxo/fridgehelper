@@ -1,0 +1,46 @@
+<!-- Dans votre modèle HTML -->
+<div class="fixed-bottom mb-4 mr-4 d-flex justify-content-end">
+  <img (click)="showListeCourses = !showListeCourses" src="https://i.imgur.com/iqMxLHd.png" alt="Liste de courses" class="rounded-circle" style="cursor: pointer; width: 50px; height: 50px;">
+</div>
+
+<div *ngIf="showListeCourses" class="fixed-bottom mb-4 mr-4">
+  <div class="position-fixed bottom-0 end-0">
+    <div class="card card-sm">
+      <div class="card-header d-flex justify-content-between">
+        Liste de courses
+        <button (click)="showListeCourses = false" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="card-body">
+        <div class="list-container">
+          <ul class="list-group list-group-sm">
+            <li class="list-group-item" *ngFor="let produit of allProduits">
+              <ng-container *ngIf="produit.origin === 'listeCourses'; else produitCustom">
+                <div (click)="toggleBarrerProduit(produit)" [class.barre-produit]="produit.barre">
+                  <strong>Nom:</strong> {{ produit.produit.nom }}<br>
+                  <strong>Quantité:</strong> {{ produit.quantite }}<br>
+                  <strong>Poids:</strong> {{ produit.poids }} {{ produit.produit.typeProduit.uniteDeMesure}}<br>
+                </div>
+                <button (click)="supprimerProduitDeListe(produit)" class="btn btn-danger btn-sm float-end"><i class="fas fa-times"></i> Supprimer</button>
+                <!-- Ajoutez d'autres champs selon vos besoins -->
+              </ng-container>
+
+              <ng-template #produitCustom>
+                <div (click)="toggleBarrerProduit(produit)" [class.barre-produit]="produit.barre">
+                  <strong>Nom:</strong> {{ produit.nom }}<br>
+                  <strong>Quantité:</strong> {{ produit.quantite }}<br>
+                  <strong>Poids:</strong> {{ produit.poids }} {{ produit.uniteDeMesure}}<br>
+                </div>
+                <button (click)="supprimerProduitCustom(produit)" class="btn btn-danger btn-sm float-end"><i class="fas fa-times"></i> Supprimer</button>
+                <!-- Ajoutez d'autres champs selon vos besoins -->
+              </ng-template>
+            </li>
+          </ul>
+        </div>
+        <!-- Bouton Ajouter au frigo -->
+        <div class="fixed-bottom mb-4 me-4 d-flex justify-content-end">
+          <button (click)="ajouterAuFrigo()" class="btn btn-primary btn-sm">Ajouter au frigo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
