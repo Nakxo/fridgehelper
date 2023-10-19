@@ -32,4 +32,7 @@
 
       <button type="submit" class="custom-submit-btn">Ajouter</button>
   </form>
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
 </div>

@@ -9,13 +9,17 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UtilisateurService {
-  private baseUrl = 'http://localhost:9982/subscribe';
+  // private baseUrl = `${environment.backendUrl}/subscribe/`;
 
   constructor(private http: HttpClient) { }
 
-  createUser(utilisateur: Utilisateur): Observable<Utilisateur> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<Utilisateur>(this.baseUrl, utilisateur, { headers });
+  // createUser(utilisateur: Utilisateur): Observable<Utilisateur> {
+  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  //   return this.http.post<Utilisateur>(this.baseUrl, utilisateur, { headers });
+  // }
+
+  createUser(utilisateur: Utilisateur): Observable<Utilisateur>{
+    return this.http.post<Utilisateur>(`${environment.backendUrl}/subscribe`, utilisateur);
   }
 
   // Met à jour les informations de base de l'utilisateur

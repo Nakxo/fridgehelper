@@ -1,3 +1,11 @@
 .barre-produit {
   text-decoration: line-through; /* Applique une barre à travers le texte */
 }
+.scrollable-list {
+  max-height: 400px; /* Ajustez la hauteur maximale selon vos besoins */
+  overflow-y: auto;
+}
+.liste-courses {
+  /* Augmentez la hauteur selon vos besoins */
+  height: 400px; /* Exemple : hauteur de 400 pixels */
+}

@@ -33,7 +33,7 @@
         </div>
         <!-- Email -->
         <div class="form-group">
-          <input type="email" id="email" name="email" [(ngModel)]="user.email" class="form-control" placeholder="E-mail" required pattern="^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\..*$">
+          <input type="email" id="email" name="email" [(ngModel)]="user.email" class="form-control" placeholder="E-mail" required pattern="^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\..*$">
           <div *ngIf="userForm.controls['email'].invalid && (userForm.controls['email'].dirty || userForm.controls['email'].touched)" class="text-danger">
             L'email est obligatoire et doit être une adresse email valide.
           </div>

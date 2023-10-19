@@ -13,6 +13,7 @@ export class AjoutProduitComponent implements OnInit {
   produitForm: any;
   typesProduit: any;
   idTypeSelected: any;
+  successMessage: string='';
 
   constructor(
     private fb: FormBuilder,
@@ -28,8 +29,6 @@ export class AjoutProduitComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
     this.frigoService.getTypeProduits().subscribe(data => {
       this.typesProduit = data;
     });
@@ -45,7 +44,7 @@ export class AjoutProduitComponent implements OnInit {
 
   onSubmit() {
     const produit = {
-      typeProduit:{
+      typeProduit: {
         idTypeProduit: this.produitForm.value.typeProduit
       },
       nom: this.produitForm.value.nom,
@@ -53,10 +52,18 @@ export class AjoutProduitComponent implements OnInit {
       poidsEstime: this.produitForm.value.possedePoidsEstime ? this.produitForm.value.poidsEstime : null
     };
 
-
     this.http.post(`${environment.backendUrl}/produit/ajouterProduit`, produit).subscribe(
       (response: any) => {
+
+        this.successMessage = 'Produit ajouté avec succès !';
+
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 2000);
         console.log('Produit ajouté avec succès !', response);
+
+        // Réinitialisez le formulaire après avoir ajouté le produit avec succès
+        this.produitForm.reset();
       },
       (error: any) => {
         console.error('Erreur lors de l\'ajout du produit:', error);

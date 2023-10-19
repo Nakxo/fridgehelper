@@ -1,5 +1,5 @@
 import { Recette } from './../models/recette.model';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RecetteService } from '../services/recette.service';
 import { of } from 'rxjs';
@@ -26,10 +26,14 @@ selectedProduct: any;
   produitId:any;
   quantite: any;
   poids: number | null = null;
+  successMessage: string ='';
+  successMessage2: string ='';
+
 constructor(
   private route: ActivatedRoute,
   private recetteService: RecetteService,
-  private frigoService: FrigoService
+  private frigoService: FrigoService,
+  private changeDetectorRef: ChangeDetectorRef
 ) {}
 
 ngOnInit() {
@@ -100,17 +104,26 @@ updateRecetteDetails(): void {
       return;
     }
 
+    const newCmbPersonne = this.recette.cmbPersonne;
+
     this.recetteService.updateRecette(this.recette.idRecette, {
       nom: this.recette.nom,
       description: this.recette.description,
       image: this.recette.image,
       difficulte: this.recette.difficulte,
       duree: this.recette.duree,
-      cmbPersonne: this.recette.cmbPersonne
+      cmbPersonne: newCmbPersonne
     }).subscribe(
       updatedRecette => {
         this.recette = updatedRecette;
+        console.log("updateRecette : ", updatedRecette);
         this.errorMessage = null;  // Réinitialisation du message d'erreur
+        this.changeDetectorRef.detectChanges();
+        this.successMessage = "Recette mise à jour";
+
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 2000);
       },
       error => {
         console.error('Erreur lors de la mise à jour de la recette:', error);
@@ -167,6 +180,13 @@ onSubmitEtapes(): void {
     this.recetteService.addEtapesToRecette(this.recette.idRecette, this.recette.etapes).subscribe(updatedRecette => {
       this.loadRecette();
     });
+
+
+    this.successMessage2 = "Etape(s) à jour";
+
+    setTimeout(() => {
+      this.successMessage = '';
+    }, 2000);
   }
 }
 

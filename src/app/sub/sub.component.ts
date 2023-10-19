@@ -22,6 +22,9 @@ export class SubComponent {
   constructor(private utilisateurService: UtilisateurService, private router: Router) { }
 
   onSubmit(): void {
+
+    this.user.email = this.user.email.toLowerCase();
+
     this.utilisateurService.createUser(this.user).subscribe(
       response => {
         // Traitement en cas de succès

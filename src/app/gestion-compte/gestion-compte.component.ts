@@ -61,7 +61,7 @@ export class GestionCompteComponent implements OnInit {
 
     // Création d'un objet avec seulement les champs autorisés à être mis à jour
     const updatedUserInfo: UtilisateurUpdate = {
-      email: this.user.email,
+      email: this.user.email.toLowerCase(),
       nom: this.user.nom,
       prenom: this.user.prenom,
       tel: this.user.tel

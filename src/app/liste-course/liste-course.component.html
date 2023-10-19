@@ -11,13 +11,14 @@
         <button (click)="showListeCourses = false" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
       </div>
       <div class="card-body">
-        <div class="list-container">
+        <!-- Ajout d'une classe CSS "scrollable-list" pour activer le défilement -->
+        <div class="list-container scrollable-list">
           <ul class="list-group list-group-sm">
             <li class="list-group-item" *ngFor="let produit of allProduits">
               <ng-container *ngIf="produit.origin === 'listeCourses'; else produitCustom">
                 <div (click)="toggleBarrerProduit(produit)" [class.barre-produit]="produit.barre">
-                  <strong>Nom:</strong> {{ produit.produit.nom }}<br>
-                  <strong>Quantité:</strong> {{ produit.quantite }}<br>
+                  {{ produit.quantite }}
+                  {{ produit.produit.nom }}<br>
                   <strong>Poids:</strong> {{ produit.poids }} {{ produit.produit.typeProduit.uniteDeMesure}}<br>
                 </div>
                 <button (click)="supprimerProduitDeListe(produit)" class="btn btn-danger btn-sm float-end"><i class="fas fa-times"></i> Supprimer</button>
@@ -26,8 +27,8 @@
 
               <ng-template #produitCustom>
                 <div (click)="toggleBarrerProduit(produit)" [class.barre-produit]="produit.barre">
-                  <strong>Nom:</strong> {{ produit.nom }}<br>
-                  <strong>Quantité:</strong> {{ produit.quantite }}<br>
+                   {{ produit.quantite }}
+                  {{ produit.nom }}<br>
                   <strong>Poids:</strong> {{ produit.poids }} {{ produit.uniteDeMesure}}<br>
                 </div>
                 <button (click)="supprimerProduitCustom(produit)" class="btn btn-danger btn-sm float-end"><i class="fas fa-times"></i> Supprimer</button>
@@ -36,10 +37,10 @@
             </li>
           </ul>
         </div>
-        <!-- Bouton Ajouter au frigo -->
-        <div class="fixed-bottom mb-4 me-4 d-flex justify-content-end">
-          <button (click)="ajouterAuFrigo()" class="btn btn-primary btn-sm">Ajouter au frigo</button>
-        </div>
+      </div>
+      <!-- Bouton Ajouter au frigo -->
+      <div class="card-footer">
+        <button (click)="ajouterAuFrigo()" class="btn btn-primary btn-sm float-end">Ajouter au frigo</button>
       </div>
     </div>
   </div>

@@ -1,7 +1,8 @@
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './../services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { BurgerMenuComponent } from '../burger-menu/burger-menu.component';
 
 @Component({
   selector: 'app-navbar',
@@ -14,6 +15,9 @@ export class NavbarComponent implements OnInit {
   prenomUtilisateur: string= '';
   utilisateurRole: string='';
   utilisateurId: any;
+
+  @ViewChild(BurgerMenuComponent)
+  private burgerMenu!: BurgerMenuComponent;
 
   constructor(private authService: AuthService, private router: Router){}
 
@@ -37,6 +41,10 @@ export class NavbarComponent implements OnInit {
   private handleError(): void {
     console.error('L\'ID utilisateur n\'est pas disponible ou invalide.');
     this.router.navigate(['/error-page']);
+  }
+
+  toggleNavbar(){
+    this.burgerMenu.toggleMenu();
   }
 
 }

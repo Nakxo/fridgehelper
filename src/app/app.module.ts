@@ -35,6 +35,7 @@ import { RecetteDetailsComponent } from './recette-details/recette-details.compo
 import { DifficultePipe } from './pipe/difficulte.pipe';
 import { GestionCompteComponent } from './gestion-compte/gestion-compte.component';
 import { RecettesAvecProduitsFrigoComponent } from './recettes-avec-produits-frigo/recettes-avec-produits-frigo.component';
+import { BurgerMenuComponent } from './burger-menu/burger-menu.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { RecettesAvecProduitsFrigoComponent } from './recettes-avec-produits-fri
     RecetteDetailsComponent,
     DifficultePipe,
     GestionCompteComponent,
-    RecettesAvecProduitsFrigoComponent
+    RecettesAvecProduitsFrigoComponent,
+    BurgerMenuComponent
   ],
   imports: [
     BrowserModule,

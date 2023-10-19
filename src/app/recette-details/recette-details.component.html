@@ -19,7 +19,7 @@
       </div>
 
       <div class="mb-3">
-          <label for="recette-image-url" class="form-label">URL de l'image :</label>
+          <label for="recette-image-url" class="form-label">URL de l'image (Obligatoire) :</label>
           <input id="recette-image-url" type="text" class="form-control" [placeholder]="recette.image" [(ngModel)]="recette.image" name="recetteImageUrl" maxlength="255">
       </div>
 
@@ -47,16 +47,19 @@
     </div>
 
       <div class="text-center mb-5">
-          <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+          <button type="submit" class="btn btn-primary" >Enregistrer les modifications</button>
       </div>
   </form>
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
 
   <!-- Section des étapes -->
   <h3 class="my-4">Étapes:</h3>
   <div *ngFor="let etape of recette.etapes; let i = index" class="form-group row">
       <div class="col-md-2">
           <label for="numeroEtape-{{i}}" class="form-label">Numéro:</label>
-          <input id="numeroEtape-{{i}}" type="number" class="form-control" [placeholder]="etape.numeroEtape" [(ngModel)]="etape.numeroEtape" name="numeroEtape{{i}}" readonly>
+          <input id="numeroEtape-{{i}}" type="number" class="form-control" [placeholder]="etape.numeroEtape" [(ngModel)]="etape.numeroEtape" name="numeroEtape{{i}}">
       </div>
       <div class="col-md-8">
           <label for="etape-{{i}}" class="form-label">Description de l'étape:</label>
@@ -70,6 +73,9 @@
   <div class="text-center mb-3">
       <button class="btn btn-primary" (click)="addEtape()">Ajouter une nouvelle étape</button>
       <button class="btn btn-success mt-3" (click)="onSubmitEtapes()">Soumettre étapes</button>
+  </div>
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage2 }}
   </div>
 
   <!-- Section des ingrédients -->

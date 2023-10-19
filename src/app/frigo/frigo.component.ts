@@ -70,6 +70,8 @@ export class FrigoComponent implements OnInit {
   customUnitesDeMesure: string[] = ["gr", "Kg", "ml", "cl"];
   selectedCustomType: string ='';
 
+  searchTerm: string ='';
+  filteredProducts: any[] | undefined ;
 
   constructor(
     private frigoService : FrigoService,
@@ -92,7 +94,7 @@ export class FrigoComponent implements OnInit {
     // Récupération des produits du frigo
     this.frigoService.getFrigoByUtilisateurId(utilisateurIdFrigo).subscribe((data: any) => {
       this.frigos = data;
-
+      console.log("FRIGOS au début", this.frigos);
       // Ajouter l'attribut isProduitDuFrigo: true à chaque élément du tableau
       this.frigos.forEach((produit) => {
         produit.isProduitDuFrigo = true;
@@ -128,85 +130,256 @@ mergeProductLists(): void {
   }
 }
 
+// ajouterProduit() {
+//     // Assurez-vous que l'utilisateur est authentifié
+//     if (this.authService.isLoggedIn()) {
+//       const utilisateurId = this.authService.getUserId(); // Récupérer l'ID utilisateur
+
+//       // Vérifiez si l'utilisateurId n'est pas null ou undefined
+//       if (utilisateurId) {
+//         // Convertir le poids réel en grammes ou millilitres en fonction de l'unité de mesure choisie
+//         let poidsReelEnGrammes = this.poidsReel;
+//         if (this.selectedUnit === 'Kg') {
+//           poidsReelEnGrammes *= 1000;
+//         } else if (this.selectedUnit === 'L') {
+//           poidsReelEnGrammes *= 1000;
+//         }
+
+//         this.poidsModal = poidsReelEnGrammes
+
+//         const frigoRequest = {
+//           utilisateur: {
+//             idUtilisateur: utilisateurId
+//           },
+//           produit: {
+//             id: this.produitId
+//           },
+//           quantite: this.quantite,
+//           poidsReel: poidsReelEnGrammes
+//         };
+
+//         this.frigoService.ajouterProduitAuFrigo(frigoRequest)
+//         .subscribe(
+//           data => {
+//             console.log('Produit ajouté avec succès!', data);
+//             console.log('selectedProduct', this.selectedProduct.typeProduit.uniteDeMesure)
+
+//             const nouveauProduit = {
+//               produit: {
+//                 id: this.produitId,
+//                 nom: this.selectedProduct.nom,
+//                 typeProduit: {
+//                   uniteDeMesure: this.selectedUnit
+//                 }
+//               },
+//               quantite: this.quantite,
+//               poidsReel: poidsReelEnGrammes
+//             };
+
+//             this.frigos.push(nouveauProduit); // Ajoute le nouveau produit à frigos
+
+//             this.selectedProduct = this.produits.find((product: any) => product.id === this.produitId);
+//             //this.selectedUnit = this.selectedProduct.typeProduit.uniteDeMesure;
+
+
+//             // Réinitialisez les champs après l'ajout
+//             this.produitId = 0;
+//             this.quantite = null;
+//             this.poidsReel = null;
+//             this.selectedUnit = this.unitesDeMesure[0];
+
+
+//             this.showSuccessModal();
+
+//             setTimeout(() => { // Fermer la modal après 3 secondes
+//               window.location.reload(); // Rafraîchir la page
+//             }, 1800);
+
+
+//           },
+//           error => {
+//             console.error('Erreur lors de l\'ajout du produit:', error);
+//             this.showErrorModal();
+//           }
+//         );
+//       } else {
+//         console.error('Erreur: L\'ID utilisateur est manquant ou invalide.');
+//       }
+//     } else {
+//       console.warn('L\'utilisateur doit être connecté pour ajouter un produit.');
+//     }
+//   }
+
 ajouterProduit() {
-    // Assurez-vous que l'utilisateur est authentifié
-    if (this.authService.isLoggedIn()) {
-      const utilisateurId = this.authService.getUserId(); // Récupérer l'ID utilisateur
+  // Assurez-vous que l'utilisateur est authentifié
+  if (this.authService.isLoggedIn()) {
+    const utilisateurId = this.authService.getUserId(); // Récupérer l'ID utilisateur
 
-      // Vérifiez si l'utilisateurId n'est pas null ou undefined
-      if (utilisateurId) {
-        // Convertir le poids réel en grammes ou millilitres en fonction de l'unité de mesure choisie
-        let poidsReelEnGrammes = this.poidsReel;
-        if (this.selectedUnit === 'Kg') {
-          poidsReelEnGrammes *= 1000;
-        } else if (this.selectedUnit === 'L') {
-          poidsReelEnGrammes *= 1000;
-        }
+    // Vérifiez si l'utilisateurId n'est pas null ou undefined
+    if (utilisateurId) {
+      // Utilisez la méthode pour obtenir la liste des produits du frigo
+      this.frigoService.getFrigoByUtilisateurId(utilisateurId).subscribe((frigos: any) => {
+        // Vérifiez si le produit existe déjà dans le frigo
+        console.log("Produits du frigo:", frigos);
 
-        this.poidsModal = poidsReelEnGrammes
+        const produitIdAComparer = Number(this.produitId);
 
-        const frigoRequest = {
-          utilisateur: {
-            idUtilisateur: utilisateurId
-          },
-          produit: {
-            id: this.produitId
-          },
-          quantite: this.quantite,
-          poidsReel: poidsReelEnGrammes
-        };
+          // Utilisez la méthode .some() pour vérifier si produitIdAComparer existe dans le tableau
+          const produitExisteDansFrigo = frigos.some((frigo: { produit: { id: number; }; }) => {
+            console.log("ID du produit dans frigo:", frigo.produit.id);
+            console.log("ID du produit que vous essayez d'ajouter:", produitIdAComparer);
+            return frigo.produit.id === produitIdAComparer;
+          });
 
-        this.frigoService.ajouterProduitAuFrigo(frigoRequest)
-        .subscribe(
-          data => {
-            console.log('Produit ajouté avec succès!', data);
-            console.log('selectedProduct', this.selectedProduct.typeProduit.uniteDeMesure)
+          console.log("CHECK DES ID :", produitExisteDansFrigo);
 
-            const nouveauProduit = {
+        console.log("CHECK DES ID :", produitExisteDansFrigo);
+
+        if (produitExisteDansFrigo) {
+          // Le produit existe déjà dans le frigo, demander confirmation
+          const confirmation = window.confirm('Le produit existe déjà dans le frigo. Voulez-vous ajouter une quantité différente ?');
+          console.log("PRODUIT EXISTE") ;
+          if (confirmation) {
+            // L'utilisateur a confirmé, continuez à ajouter le produit avec la nouvelle quantité
+
+            // Convertir le poids réel en grammes ou millilitres en fonction de l'unité de mesure choisie
+            let poidsReelEnGrammes = this.poidsReel;
+            if (this.selectedUnit === 'Kg') {
+              poidsReelEnGrammes *= 1000;
+            } else if (this.selectedUnit === 'L') {
+              poidsReelEnGrammes *= 1000;
+            }
+
+            this.poidsModal = poidsReelEnGrammes
+
+            const frigoRequest = {
+              utilisateur: {
+                idUtilisateur: utilisateurId
+              },
               produit: {
-                id: this.produitId,
-                nom: this.selectedProduct.nom,
-                typeProduit: {
-                  uniteDeMesure: this.selectedUnit
-                }
+                id: this.produitId
               },
               quantite: this.quantite,
               poidsReel: poidsReelEnGrammes
             };
 
-            this.frigos.push(nouveauProduit); // Ajoute le nouveau produit à frigos
+            this.frigoService.ajouterProduitAuFrigo(frigoRequest)
+              .subscribe(
+                data => {
+                  console.log('Produit ajouté avec succès!', data);
+                  console.log('selectedProduct', this.selectedProduct.typeProduit.uniteDeMesure)
 
-            this.selectedProduct = this.produits.find((product: any) => product.id === this.produitId);
-            //this.selectedUnit = this.selectedProduct.typeProduit.uniteDeMesure;
+                  const nouveauProduit = {
+                    produit: {
+                      id: this.produitId,
+                      nom: this.selectedProduct.nom,
+                      typeProduit: {
+                        uniteDeMesure: this.selectedUnit
+                      }
+                    },
+                    quantite: this.quantite,
+                    poidsReel: poidsReelEnGrammes
+                  };
 
+                  this.frigos.push(nouveauProduit); // Ajoute le nouveau produit à frigos
 
-            // Réinitialisez les champs après l'ajout
-            this.produitId = 0;
-            this.quantite = null;
-            this.poidsReel = null;
-            this.selectedUnit = this.unitesDeMesure[0];
+                  this.selectedProduct = this.produits.find((product: any) => product.id === this.produitId);
 
+                  // Réinitialisez les champs après l'ajout
+                  this.produitId = 0;
+                  this.quantite = null;
+                  this.poidsReel = null;
+                  this.selectedUnit = this.unitesDeMesure[0];
 
-            this.showSuccessModal();
+                  this.showSuccessModal();
 
-            setTimeout(() => { // Fermer la modal après 3 secondes
-              window.location.reload(); // Rafraîchir la page
-            }, 1800);
-
-
-          },
-          error => {
-            console.error('Erreur lors de l\'ajout du produit:', error);
-            this.showErrorModal();
+                  setTimeout(() => { // Fermer la modal après 3 secondes
+                    window.location.reload(); // Rafraîchir la page
+                  }, 1200);
+                },
+                error => {
+                  console.error('Erreur lors de l\'ajout du produit:', error);
+                  this.showErrorModal();
+                }
+              );
+          } else {
+            // L'utilisateur a annulé, ne faites rien ou affichez un message d'annulation
+            console.log('L\'utilisateur a annulé l\'ajout du produit.');
           }
-        );
-      } else {
-        console.error('Erreur: L\'ID utilisateur est manquant ou invalide.');
-      }
+        } else {
+          // Le produit n'existe pas dans le frigo, ajoutez-le normalement
+          console.log("PRODUIT N ESXISTE PAS ") ;
+          // Convertir le poids réel en grammes ou millilitres en fonction de l'unité de mesure choisie
+          let poidsReelEnGrammes = this.poidsReel;
+          if (this.selectedUnit === 'Kg') {
+            poidsReelEnGrammes *= 1000;
+          } else if (this.selectedUnit === 'L') {
+            poidsReelEnGrammes *= 1000;
+          }
+
+          this.poidsModal = poidsReelEnGrammes
+
+          const frigoRequest = {
+            utilisateur: {
+              idUtilisateur: utilisateurId
+            },
+            produit: {
+              id: this.produitId
+            },
+            quantite: this.quantite,
+            poidsReel: poidsReelEnGrammes
+          };
+
+          this.frigoService.ajouterProduitAuFrigo(frigoRequest)
+            .subscribe(
+              data => {
+                console.log('Produit ajouté avec succès!', data);
+                console.log('selectedProduct', this.selectedProduct.typeProduit.uniteDeMesure)
+
+                const nouveauProduit = {
+                  produit: {
+                    id: this.produitId,
+                    nom: this.selectedProduct.nom,
+                    typeProduit: {
+                      uniteDeMesure: this.selectedUnit
+                    }
+                  },
+                  quantite: this.quantite,
+                  poidsReel: poidsReelEnGrammes
+                };
+
+                this.frigos.push(nouveauProduit); // Ajoute le nouveau produit à frigos
+
+                this.selectedProduct = this.produits.find((product: any) => product.id === this.produitId);
+
+                // Réinitialisez les champs après l'ajout
+                this.produitId = 0;
+                this.quantite = null;
+                this.poidsReel = null;
+                this.selectedUnit = this.unitesDeMesure[0];
+
+                this.showSuccessModal();
+
+                setTimeout(() => { // Fermer la modal après 3 secondes
+                  window.location.reload(); // Rafraîchir la page
+                }, 1200);
+              },
+              error => {
+                console.error('Erreur lors de l\'ajout du produit:', error);
+                this.showErrorModal();
+              }
+            );
+        }
+      });
     } else {
-      console.warn('L\'utilisateur doit être connecté pour ajouter un produit.');
+      console.error('Erreur: L\'ID utilisateur est manquant ou invalide.');
     }
+  } else {
+    console.warn('L\'utilisateur doit être connecté pour ajouter un produit.');
   }
+}
+
+
 
   ajouterProduitListeCourse() {
 
@@ -449,6 +622,13 @@ deleteProduitCustom(produitId: any) {
         const utilisateurId = this.authService.getUserId();
 
         if (utilisateurId) {
+
+          const isNomValid = this.nouveauProduitCustom.nomCustom.length <= 20;
+
+          if (!isNomValid) {
+          console.error('Le nom ne peut pas dépasser 20 caractères.');
+         return;
+          }
           const produitCustomData = {
             utilisateur: {
                 idUtilisateur: utilisateurId
@@ -483,6 +663,14 @@ ajouterProduitCustomListeCourse() {
       const utilisateurId = this.authService.getUserId();
 
       if (utilisateurId) {
+
+        const isNomValid = this.nouveauProduitCustom.nomCustom.length <= 20;
+
+        if (!isNomValid) {
+          console.error('Le nom ne peut pas dépasser 20 caractères.');
+          return;
+        }
+
         const produitCustomData = {
           utilisateur: {
               idUtilisateur: utilisateurId
@@ -525,7 +713,15 @@ closeOnClick(): void {
 }
 
 updateCustomProduct() {
-  // Obtenez l'ID du produit personnalisé sélectionné
+
+  // Vérifiez la longueur du nom
+  const isNomValid = this.customNom.length <= 20;
+
+  if (!isNomValid) {
+    // Affichez un message d'erreur si le nom est trop long
+    console.error('Le nom ne peut pas dépasser 20 caractères.');
+    return;
+  }
   const idProduitCustom = this.selectedCustomProduct.id;
 
   // Appelez le service pour mettre à jour le produit personnalisé
@@ -579,6 +775,17 @@ openEditModalCustom(content: any, customProduct: any) {
 
 afficherRecettesAvecProduitsFrigo() {
   this.router.navigate(['/recette-avec-produits-frigo']);
+}
+
+onSearch() {
+  this.filteredProducts = this.allProduits.filter(produit => {
+    // Vous pouvez ajouter d'autres critères de recherche ici
+    return (
+      produit.isProduitDuFrigo &&
+      (produit.produit.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      produit.produit.typeProduit.nom.toLowerCase().includes(this.searchTerm.toLowerCase()))
+    );
+  });
 }
 
 

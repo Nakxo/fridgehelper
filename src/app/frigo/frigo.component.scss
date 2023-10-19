@@ -68,3 +68,6 @@ table {
   border: 1px solid #ccc; /* Style de la bordure si désiré */
   padding: 10px; /* Espacement interne pour l'apparence */
 }
+.has-error {
+  border: 1px solid red; /* Bordure rouge en cas d'erreur */
+}
