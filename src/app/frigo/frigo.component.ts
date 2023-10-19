@@ -294,7 +294,7 @@ ajouterProduit() {
                   this.showSuccessModal();
 
                   setTimeout(() => { // Fermer la modal après 3 secondes
-                    window.location.reload(); // Rafraîchir la page
+                    this.router.navigate(['/frigo']); // Rafraîchir la page
                   }, 1200);
                 },
                 error => {
@@ -361,7 +361,7 @@ ajouterProduit() {
                 this.showSuccessModal();
 
                 setTimeout(() => { // Fermer la modal après 3 secondes
-                  window.location.reload(); // Rafraîchir la page
+                  this.router.navigate(['/frigo']); // Rafraîchir la page
                 }, 1200);
               },
               error => {
@@ -441,7 +441,7 @@ ajouterProduit() {
               this.showSuccessModal();
 
               setTimeout(() => { // Fermer la modal après 3 secondes
-                window.location.reload(); // Rafraîchir la page
+                this.router.navigate(['/frigo']); // Rafraîchir la page
               }, 1800);
             },
             (error: any) => {
@@ -539,7 +539,7 @@ deleteProductFromFridge(productId: number) {
             () => {
               console.log('Produit supprimé avec succès!');
               this.frigos = this.frigos.filter((frigo: any) => frigo.produit.id !== productId);
-              window.location.reload();
+              this.router.navigate(['/frigo']);
             },
             error => {
               console.error('Erreur lors de la suppression du produit:', error);
@@ -558,7 +558,7 @@ deleteProduitCustom(produitId: any) {
                 () => {
                     console.log('Produit custom supprimé avec succès!');
                     this.frigos = this.frigos.filter((frigo: any) => frigo.produit.id !== produitId);
-                    window.location.reload();
+                    this.router.navigate(['/frigo']);
                 },
                 error => {
                     console.error('Erreur lors de la suppression du produit custom:', error);
@@ -644,7 +644,7 @@ deleteProduitCustom(produitId: any) {
             .subscribe(
                 data => {
                   console.log('Produit custom ajouté avec succès');
-                  window.location.reload();
+                  this.router.navigate(['/frigo']);
                 },
                 error => {
                     // Gérez les erreurs ici
@@ -686,7 +686,8 @@ ajouterProduitCustomListeCourse() {
           .subscribe(
               data => {
                 console.log('Produit custom ajouté avec succès à la liste de courses');
-                window.location.reload();
+                this.router.navigate(['/frigo']);
+
               },
               error => {
                   // Gérez les erreurs ici
@@ -706,7 +707,7 @@ openModal(): void {
 
 closeModalAndRefresh(): void {
   $('#ajoutProduitModal').modal('hide');
-  location.reload(); // Rafraîchir la page
+  this.router.navigate(['/frigo']); // Rafraîchir la page
 }
 closeOnClick(): void {
   $('#ajoutProduitModal').modal('hide');
@@ -741,7 +742,7 @@ updateCustomProduct() {
 
       // Rechargez la liste des produits personnalisés après la mise à jour
       this.refreshFrigoList();
-      window.location.reload();
+      this.router.navigate(['/frigo']);
     },
     (error) => {
       console.error('Erreur lors de la mise à jour du produit personnalisé:', error);
