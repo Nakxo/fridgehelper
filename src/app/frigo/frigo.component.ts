@@ -294,7 +294,7 @@ ajouterProduit() {
                   this.showSuccessModal();
 
                   setTimeout(() => { // Fermer la modal après 3 secondes
-                    this.goToRoute();  // Rafraîchir la page
+                    window.location.reload(); // Rafraîchir la page
                   }, 1200);
                 },
                 error => {
@@ -361,7 +361,7 @@ ajouterProduit() {
                 this.showSuccessModal();
 
                 setTimeout(() => { // Fermer la modal après 3 secondes
-                  this.goToRoute(); // Rafraîchir la page
+                  window.location.reload(); // Rafraîchir la page
                 }, 1200);
               },
               error => {
@@ -377,10 +377,6 @@ ajouterProduit() {
   } else {
     console.warn('L\'utilisateur doit être connecté pour ajouter un produit.');
   }
-}
-
-goToRoute(){
-  this.router.navigate(['']);
 }
 
 
@@ -445,7 +441,7 @@ goToRoute(){
               this.showSuccessModal();
 
               setTimeout(() => { // Fermer la modal après 3 secondes
-                this.goToRoute(); // Rafraîchir la page
+                window.location.reload(); // Rafraîchir la page
               }, 1800);
             },
             (error: any) => {
@@ -543,7 +539,7 @@ deleteProductFromFridge(productId: number) {
             () => {
               console.log('Produit supprimé avec succès!');
               this.frigos = this.frigos.filter((frigo: any) => frigo.produit.id !== productId);
-              this.goToRoute();
+              window.location.reload();
             },
             error => {
               console.error('Erreur lors de la suppression du produit:', error);
@@ -562,7 +558,7 @@ deleteProduitCustom(produitId: any) {
                 () => {
                     console.log('Produit custom supprimé avec succès!');
                     this.frigos = this.frigos.filter((frigo: any) => frigo.produit.id !== produitId);
-                    this.goToRoute();
+                    window.location.reload();
                 },
                 error => {
                     console.error('Erreur lors de la suppression du produit custom:', error);
@@ -648,7 +644,7 @@ deleteProduitCustom(produitId: any) {
             .subscribe(
                 data => {
                   console.log('Produit custom ajouté avec succès');
-                  this.goToRoute();
+                  window.location.reload();
                 },
                 error => {
                     // Gérez les erreurs ici
@@ -690,7 +686,7 @@ ajouterProduitCustomListeCourse() {
           .subscribe(
               data => {
                 console.log('Produit custom ajouté avec succès à la liste de courses');
-
+                window.location.reload();
               },
               error => {
                   // Gérez les erreurs ici
@@ -710,7 +706,7 @@ openModal(): void {
 
 closeModalAndRefresh(): void {
   $('#ajoutProduitModal').modal('hide');
-  this.goToRoute(); // Rafraîchir la page
+  location.reload(); // Rafraîchir la page
 }
 closeOnClick(): void {
   $('#ajoutProduitModal').modal('hide');
@@ -745,7 +741,7 @@ updateCustomProduct() {
 
       // Rechargez la liste des produits personnalisés après la mise à jour
       this.refreshFrigoList();
-      this.goToRoute();
+      window.location.reload();
     },
     (error) => {
       console.error('Erreur lors de la mise à jour du produit personnalisé:', error);
