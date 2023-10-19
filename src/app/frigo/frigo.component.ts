@@ -380,7 +380,7 @@ ajouterProduit() {
 }
 
 goToRoute(){
-  this.router.navigate(['/']);
+  this.router.navigate(['']);
 }
 
 
