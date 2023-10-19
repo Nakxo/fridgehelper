@@ -294,7 +294,9 @@ ajouterProduit() {
                   this.showSuccessModal();
 
                   setTimeout(() => { // Fermer la modal après 3 secondes
-                    this.router.navigate(['/frigo']); // Rafraîchir la page
+                    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+this.router.onSameUrlNavigation = 'reload';
+this.router.navigate([this.router.url]); // Rafraîchir la page
                   }, 1200);
                 },
                 error => {
