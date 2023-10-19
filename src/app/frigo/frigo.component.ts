@@ -294,9 +294,12 @@ ajouterProduit() {
                   this.showSuccessModal();
 
                   setTimeout(() => { // Fermer la modal après 3 secondes
-                    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-this.router.onSameUrlNavigation = 'reload';
-this.router.navigate(['/frigo']); // Rafraîchir la page
+                    // Naviguer vers une route inexistante
+this.router.navigateByUrl('/route-inexistante').then(() => {
+  // Revenir à la route d'origine
+  this.router.navigate(['/']);
+});
+
                   }, 1200);
                 },
                 error => {
@@ -363,7 +366,10 @@ this.router.navigate(['/frigo']); // Rafraîchir la page
                 this.showSuccessModal();
 
                 setTimeout(() => { // Fermer la modal après 3 secondes
-                  this.router.navigate(['/frigo']); // Rafraîchir la page
+                  this.router.navigateByUrl('/route-inexistante').then(() => {
+                    // Revenir à la route d'origine
+                    this.router.navigate(['/']);
+                  }); // Rafraîchir la page
                 }, 1200);
               },
               error => {
